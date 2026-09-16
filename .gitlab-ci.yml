@@ -1,0 +1,37 @@
+stages:
+  - check
+
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/.cargo
+  CARGO_TERM_COLOR: always
+  # Системные библиотеки нужны только окну (eframe/winit); ядру и CLI — нет.
+  GUI_DEPS: >-
+    libxkbcommon-dev libwayland-dev libx11-dev libxrandr-dev
+    libxi-dev libxcursor-dev libgl1-mesa-dev
+
+default:
+  image: rust:1.97
+  cache:
+    key: cargo-$CI_COMMIT_REF_SLUG
+    paths:
+      - .cargo/
+      - target/
+
+fmt:
+  stage: check
+  script:
+    - cargo fmt --all -- --check
+
+clippy:
+  stage: check
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq $GUI_DEPS
+  script:
+    - cargo clippy --workspace --all-targets -- -D warnings
+
+test:
+  stage: check
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq $GUI_DEPS
+  script:
+    - cargo test --workspace

@@ -1,0 +1,19 @@
+# Лабораторная продувка холодным воздухом, линейный модуль.
+# Секции [contour] и [operating] опущены: игла полная, уровень моря.
+schema = 1
+name = "Холодный воздух"
+
+[geometry]
+kind = "linear"
+throat_gap_mm = 12.0
+width_mm = 200.0
+
+[propellant]
+kind = "air"
+
+[chamber]
+pressure_bar = 6.0
+
+[design]
+mode = "pressure_ratio"
+npr = 40.0

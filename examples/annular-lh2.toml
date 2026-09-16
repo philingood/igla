@@ -1,0 +1,24 @@
+# Кольцевая игла верхней ступени: LOX/LH₂, ε = 40, усечение 22 %.
+schema = 1
+name = "Кольцевой LH2"
+
+[geometry]
+kind = "annular"
+throat_radius_mm = 80.0
+
+[propellant]
+kind = "lox-lh2"
+
+[chamber]
+pressure_bar = 80.0
+
+[design]
+mode = "area_ratio"
+epsilon = 40.0
+
+[contour]
+truncation_pct = 22.0
+points = 160
+
+[operating]
+altitude_km = 0.0

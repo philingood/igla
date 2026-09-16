@@ -1,0 +1,5 @@
+# Pinned so that a lab machine, CI and a student's laptop all compile the same
+# numbers. Bump deliberately, never incidentally.
+[toolchain]
+channel = "1.97.0"
+components = ["rustfmt", "clippy"]

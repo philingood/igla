@@ -1,0 +1,17 @@
+[package]
+name = "igla-gui"
+description = "Desktop front end for the ИГЛА plug-nozzle solver"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "igla-gui"
+path = "src/main.rs"
+
+[dependencies]
+eframe = "0.36.2"
+egui_plot = "0.37.0"
+igla-core.workspace = true
