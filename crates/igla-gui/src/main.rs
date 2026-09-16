@@ -11,9 +11,19 @@ use eframe::egui;
 use igla_core::project::{ChamberFile, ContourFile, DesignFile, GeometryFile, OperatingFile};
 use igla_core::{ProjectFile, Propellant, project};
 
+fn app_icon() -> egui::IconData {
+    if cfg!(target_os = "macos") {
+        return egui::IconData::default();
+    }
+    eframe::icon_data::from_png_bytes(include_bytes!("../../../packaging/icon-512.png"))
+        .expect("иконка приложения не разобралась")
+}
+
 fn main() -> eframe::Result<()> {
     let options = eframe::NativeOptions {
-        viewport: egui::ViewportBuilder::default().with_inner_size([1100.0, 720.0]),
+        viewport: egui::ViewportBuilder::default()
+            .with_inner_size([1100.0, 720.0])
+            .with_icon(app_icon()),
         ..Default::default()
     };
     eframe::run_native(

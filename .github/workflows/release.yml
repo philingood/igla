@@ -23,10 +23,11 @@ jobs:
             target: x86_64-unknown-linux-gnu
           - os: macos-latest
             target: aarch64-apple-darwin
-          - os: macos-13
+          - os: macos-latest
             target: x86_64-apple-darwin
           - os: windows-latest
             target: x86_64-pc-windows-msvc
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -35,16 +36,18 @@ jobs:
           toolchain: "1.97.0"
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
+
       - name: Системные библиотеки для окна
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libxkbcommon-dev libwayland-dev libx11-dev \
             libxrandr-dev libxi-dev libxcursor-dev libgl1-mesa-dev
+            
       - run: cargo build --release --workspace --target ${{ matrix.target }}
 
-      - name: Упаковать (unix)
-        if: runner.os != 'Windows'
+      - name: Упаковать (Linux)
+        if: runner.os == 'Linux'
         run: |
           mkdir -p dist
           cp target/${{ matrix.target }}/release/igla dist/
@@ -52,6 +55,43 @@ jobs:
           cp README.md LICENSE dist/
           cp -r docs dist/
           tar -czf igla-${{ matrix.target }}.tar.gz -C dist .
+
+      - name: Упаковать (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          set -eu
+          # .app — это просто каталог с фиксированной раскладкой. Версия
+          # подставляется из тега, чтобы в релизе не оказалось прошлогодней.
+          if [ "$GITHUB_REF_TYPE" = tag ]; then VERSION="${GITHUB_REF_NAME#v}"; else VERSION="0.0.0-dev"; fi
+          APP="dist/Igla.app"
+          RES="$APP/Contents/Resources"
+          mkdir -p "$APP/Contents/MacOS" "$RES"
+          sed "s/__VERSION__/$VERSION/g" packaging/macos/Info.plist > "$APP/Contents/Info.plist"
+
+          # Слоёная иконка: actool собирает Assets.car для macOS 26+ (там
+          # материал Liquid Glass накладывает система) и заодно совместимый
+          # .icns для более ранних версий. Если actool споткнётся, релиз не
+          # падает — кладём нарисованный вручную .icns.
+          if xcrun actool packaging/macos/AppIcon.icon \
+               --app-icon AppIcon --compile iconout \
+               --output-partial-info-plist iconout/partial.plist \
+               --minimum-deployment-target 11.0 \
+               --platform macosx --target-device mac \
+               --errors --warnings; then
+            cp iconout/Assets.car "$RES/" 2>/dev/null || true
+            GENERATED=$(find iconout -name '*.icns' | head -1)
+            if [ -n "$GENERATED" ]; then cp "$GENERATED" "$RES/AppIcon.icns"; fi
+          else
+            echo "::warning::actool не собрал AppIcon.icon — беру запасной .icns"
+          fi
+          [ -f "$RES/AppIcon.icns" ] || cp packaging/macos/igla.icns "$RES/AppIcon.icns"
+
+          cp target/${{ matrix.target }}/release/igla-gui "$APP/Contents/MacOS/"
+          cp target/${{ matrix.target }}/release/igla dist/
+          cp README.md LICENSE dist/
+          cp -r docs dist/
+          tar -czf igla-${{ matrix.target }}.tar.gz -C dist .
+
       - name: Упаковать (windows)
         if: runner.os == 'Windows'
         run: |

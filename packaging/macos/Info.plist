@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Папка называется Igla.app (ASCII — чтобы не ловить разную нормализацию
+	     юникода в архивах и файловых системах), а пользователь видит «ИГЛА». -->
+	<key>CFBundleName</key>
+	<string>Igla</string>
+	<key>CFBundleDisplayName</key>
+	<string>ИГЛА</string>
+	<key>CFBundleIdentifier</key>
+	<string>io.github.OWNER.igla</string>
+	<key>CFBundleExecutable</key>
+	<string>igla-gui</string>
+	<!-- macOS 26+ берёт слоёную иконку из Assets.car по этому ключу и сам
+	     накладывает материал Liquid Glass; более ранние версии читают .icns. -->
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>__VERSION__</string>
+	<key>CFBundleVersion</key>
+	<string>__VERSION__</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.education</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>11.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+</dict>
+</plist>

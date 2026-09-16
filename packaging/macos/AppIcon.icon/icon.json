@@ -1,0 +1,35 @@
+{
+  "color-space-for-untagged-svg-colors" : "display-p3",
+  "fill" : {
+    "linear-gradient" : [
+      "extended-srgb:0.10588,0.14510,0.19608,1.00000",
+      "extended-srgb:0.02745,0.03922,0.05490,1.00000"
+    ]
+  },
+  "groups" : [
+    {
+      "name" : "Сопло",
+      "lighting" : "combined",
+      "specular" : true,
+      "shadow" : { "kind" : "neutral", "opacity" : 0.5 },
+      "translucency" : { "enabled" : true, "value" : 0.5 },
+      "layers" : [
+        {
+          "name" : "Тело",
+          "image-name" : "body.svg",
+          "glass" : false,
+          "hidden" : false,
+          "blend-mode" : "normal"
+        },
+        {
+          "name" : "Обечайка",
+          "image-name" : "shroud.svg",
+          "glass" : false,
+          "hidden" : false,
+          "blend-mode" : "normal"
+        }
+      ]
+    }
+  ],
+  "supported-platforms" : { "squares" : "shared" }
+}

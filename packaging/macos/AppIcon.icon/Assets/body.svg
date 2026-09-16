@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="cone" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"    stop-color="#26506F"/>
+      <stop offset="0.38" stop-color="#9CC9E8"/>
+      <stop offset="0.62" stop-color="#C8E4F7"/>
+      <stop offset="1"    stop-color="#22465F"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"   stop-color="#6E8497"/>
+      <stop offset="0.5" stop-color="#C2D3E2"/>
+      <stop offset="1"   stop-color="#5D7286"/>
+    </linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F0F8FF"/>
+      <stop offset="1" stop-color="#8CBADC"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(512 512) scale(1.142857) translate(-512 -512)">
+    <path d="M 334 344
+             C 356 556, 452 742, 500 826
+             L 524 826
+             C 572 742, 668 556, 690 344 Z" fill="url(#cone)"/>
+    <ellipse cx="512" cy="826" rx="12" ry="4" fill="#1D3E57"/>
+  </g>
+</svg>

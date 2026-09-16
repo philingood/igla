@@ -1,0 +1,41 @@
+name: Icon
+
+# Отдельный быстрый цикл для иконки: собрать .icon через actool и выложить
+# результат артефактом, не выпуская релиз.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "packaging/macos/**"
+      - ".github/workflows/icon.yml"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Версии инструментов
+        run: |
+          sw_vers
+          xcodebuild -version
+          xcrun --find actool
+
+      - name: Скомпилировать AppIcon.icon
+        run: |
+          mkdir -p out
+          xcrun actool packaging/macos/AppIcon.icon \
+            --app-icon AppIcon \
+            --compile out \
+            --output-partial-info-plist out/partial.plist \
+            --minimum-deployment-target 11.0 \
+            --platform macosx \
+            --target-device mac \
+            --errors --warnings --notices
+          echo "--- что получилось ---"
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: icon-build
+          path: out
